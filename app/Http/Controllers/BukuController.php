@@ -13,9 +13,11 @@ class BukuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $buku = DB::table('buku')->get();
+        $buku = DB::table('buku')->where("buku.judul", "LIKE", "%".$request->search."%")
+        ->orwhere("buku.tahun_terbit", "LIKE", "%".$request->search."%")
+            ->get();
         return view('0104buku.index', [
             'buku' => $buku
         ]);
